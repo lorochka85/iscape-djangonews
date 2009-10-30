@@ -1,3 +1,4 @@
 recursive-include djangonews/media *
+recursive-include djangonews/fixtures *
 recursive-include djangonews/templates *
 include LICENSE
