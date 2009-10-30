@@ -12,6 +12,7 @@ setup(
     install_requires=(
         'django-staticmedia',
         'feedparser',
+        'sorl-thumbnail',
     ),
 
     zip_safe=False,
