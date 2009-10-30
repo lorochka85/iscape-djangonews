@@ -1,0 +1,22 @@
+{% extends 'djangonews/base.html' %}
+
+{% block title %}Articles for {{ month|date:"N Y" }}{% endblock %}
+
+{% block content %}
+<div id="breadcrumbs">
+  {% include "djangonews/includes/bread-home.html" %} |
+  {% include "djangonews/includes/bread-index.html" %} |
+  <a href="../">{{ month|date:"Y" }}</a> | {{ month|date:"N" }}
+</div>
+
+<h1>Articles for {{ month|date:"N Y" }}</h1>
+{% for article in object_list %}
+  <div class="article-list-release-date">{{ article.release_date|date:"m/d" }}</div>
+  <div class="article-list-item">
+    <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+    {{ article.teaser|truncatewords_html:"18"|safe }}
+    <p><a class="more-link" href="{{ article.get_absolute_url }}">read more</a></p>
+  </div>
+{% endfor %}
+{% endblock %}
+~                 

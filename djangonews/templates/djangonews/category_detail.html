@@ -1,0 +1,20 @@
+{% extends "djangonews/base.html" %}
+{% block content %}
+<div id="breadcrumbs">
+  {% include "djangonews/includes/bread-home.html" %} | <a href="../">Categories</a> | {{ category }}
+</div>
+<h1>Articles in category "{{ category }}"</h1>
+{% if article_list %}
+
+{% for article in article_list %}
+  <div class="article-list-release-date">{{ article.release_date|date:"m/d/Y" }}</div>
+  <div class="article-list-item">
+    <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+    {{ article.teaser|truncatewords_html:"18"|safe }}
+    <p><a class="more-link" href="{{ article.get_absolute_url }}">read more</a></p>
+  </div>
+{% endfor %}
+{% else %}
+  <p>There are no matching articles for this category.</p>
+{% endif %}
+{% endblock %}

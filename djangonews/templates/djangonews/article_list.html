@@ -1,0 +1,26 @@
+{% extends 'djangonews/base.html' %}
+{% block title %}Full Listing of {{ block.super }} {% endblock %}
+{% block content %}
+<div id="article-index">
+{% if article_list %}
+
+<div id="breadcrumbs">
+{% include "djangonews/includes/bread-home.html" %} | Full Listing
+</div>
+
+<h1>Full Listing of News Releases</h1>
+{% include "djangonews/includes/pagination.html" %}
+{% for article in article_list.object_list %}
+  <div class="article-list-release-date">{{ article.release_date|date:"m/d/Y" }}</div>
+  <div class="article-list-item">
+    <h2><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></h2>
+    {{ article.teaser|truncatewords_html:"18"|safe }}
+    <p><a class="more-link" href="{{ article.get_absolute_url }}">read more</a></p>
+  </div>
+{% endfor %}
+{% else %}
+  <p>There are currently no articles available.</p>
+{% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,17 @@
+{% extends 'base_site.html' %}
+
+{% load staticmedia %}
+
+{% block title %}News{% endblock %}
+
+{% block extrahead %}
+  <link rel="stylesheet" type="text/css" href="{% mediaurl "djangonews/css/news.css" %}" />
+  <script src="/data/js/jquery.js" 
+          type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+  <div id="news">
+    {% block content %}{% endblock %}
+  </div>
+{% endblock %}

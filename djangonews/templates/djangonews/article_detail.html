@@ -1,0 +1,75 @@
+{% extends 'djangonews/base.html' %}
+{% load thumbnail staticmedia %}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block extrahead %}
+{{ block.super }}
+  <script src="{% mediaurl "djangonews/js/jquery.popeye-0.2.1.js" %}" 
+          type="text/javascript"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.popeye').popeye({
+        stageW: '270px',
+        stageH: '210px'
+      }); 
+    }); 
+  </script>
+{% endblock %}
+{% block content %}
+
+<div id="breadcrumbs">
+{% include "djangonews/includes/bread-home.html" %} |
+{% include "djangonews/includes/bread-index.html" %} 
+</div>
+  <h1>{{ object.title }}</h1>
+  <h2 class="subhead">{{ object.teaser }}</h2>
+  {% if object.images.all %}
+  <div id="gallery" class="popeye">
+    <ul>
+    {% for image in object.images.all %}
+      <li><a href="{{ image.image.url }}"><img src="{% thumbnail image.image 270x210 crop %}" title="{{ image.caption }}" alt="{{ image.name }}" /></a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if object.location %}
+    <div id="article-location">
+      <span class="article-list-label">Location:</span>
+      {{ object.location }}
+    </div>
+  {% endif %}
+
+  <p class="date">{{ object.release_date|date:"F j, Y P" }}</p>
+
+  <div id="article-body">{{ object.body|safe }}</div>
+
+{% include "djangonews/includes/add-this.html" %}
+
+{% if object.categories.all %}
+  <div id="article-categories">
+  <span class="article-list-label">Categor{{ object.categories.count|pluralize:"y,ies" }}:</span>
+  <ul class="article-list">
+  {% for category in object.categories.all %}
+    <li><a href="{{ category.get_absolute_url }}">{{ category.title }}</a></li>
+  {% endfor %}
+  </ul>
+  </div>
+{% endif %}
+
+<div id="next-previous">
+{% if object.get_next_published %}
+<p><strong>Next:</strong>
+<a href="{{ object.get_next_published.get_absolute_url }}">{{ object.get_next_published.title }}</a></p>
+{% endif %}
+<p id="currently-reading"><strong>Currently Reading:</strong> {{ object.title }}</p>
+{% if object.get_previous_published %}
+<p><strong>Previous:</strong>
+<a href="{{ object.get_previous_published.get_absolute_url }}">{{ object.get_previous_published.title }}</a></p>
+{% endif %}
+</div>
+
+{% endblock %}
+
