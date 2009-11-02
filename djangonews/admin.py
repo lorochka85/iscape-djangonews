@@ -36,6 +36,7 @@ class ImageInline(admin.StackedInline):
     extra = 1
 
 class ArticleAdmin(admin.ModelAdmin):
+    """Customization for the Atricle in django admin"""
     inlines = [
         ImageInline,
     ]
@@ -54,6 +55,7 @@ class ArticleAdmin(admin.ModelAdmin):
     form = forms.ArticleAdminModelForm
 
 class CategoryAdmin(admin.ModelAdmin):
+    """Making Category look prettier in admin"""
     list_display = ('title',)
     search_fields = ['title',]
     prepopulated_fields = {'slug' : ('title',)}
@@ -61,5 +63,6 @@ class CategoryAdmin(admin.ModelAdmin):
                ('Category', {'fields': ('title', 'slug')}),
     )
 
+# register models with admin
 admin.site.register(models.Article, ArticleAdmin)
 admin.site.register(models.Category, CategoryAdmin)

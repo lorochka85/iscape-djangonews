@@ -31,6 +31,7 @@ from django.contrib.syndication.feeds import Feed
 from djangonews.models import Article
 
 class FeaturedEntries(Feed):
+    """Feed class to return all featured non-expired artciles"""
     title = "Featured Articles"
     link = "/news/"
     description = "Featured Articles"
@@ -39,6 +40,7 @@ class FeaturedEntries(Feed):
         return Article.objects.get_featured()
 
 class AllEntries(Feed):
+    """Feed class to display all non-expired active entries"""
     title = "All News"
     link = "/news/"
     description = "All News"

@@ -39,6 +39,7 @@ from django.contrib.sites.models import Site
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 def index(request):
+    """Display list of relevant(active and not expired) articles"""
     site = Site.objects.get_current()
     featured_list = models.Article.objects.get_featured()
     article_list = models.Article.objects.get_published()
@@ -46,6 +47,7 @@ def index(request):
         context_instance=template.RequestContext(request))
 
 def category_detail(request, slug):
+    """Display relevant articles from the category with {{slug}}"""
     category = models.Category.objects.get(slug__exact=slug)
     article_list = category.articles.get_published()
     return shortcuts.render_to_response(
@@ -54,6 +56,7 @@ def category_detail(request, slug):
         context_instance=template.RequestContext(request))        
 
 def article_list(request):
+    """Display all active and not exired articles"""
     article_list = models.Article.objects.get_published()
 
     paginator = Paginator(article_list, 10)
@@ -64,43 +67,47 @@ def article_list(request):
         'djangonews/article_list.html', {'article_list': article_list,},
         context_instance=template.RequestContext(request))
 
+
+# Django generic views follow with only active and non-expired 
+# articles passed on for quesryset:
+
 def article_detail(request, year, month, day, slug):
     return date_based.object_detail(
         request,
-        year = year,
-        month = month,
-        day = day,
-        date_field = 'release_date',
-        slug = slug,
-        queryset = models.Article.objects.get_published()
+        year=year,
+        month=month,
+        day=day,
+        date_field='release_date',
+        slug=slug,
+        queryset=models.Article.objects.get_published()
     )
 
 def article_archive_year(request, year):
     return date_based.archive_year(
         request,
-        year = year,
-        date_field = 'release_date',
-        queryset = models.Article.objects.get_published(),
-        make_object_list = True,
+        year=year,
+        date_field='release_date',
+        queryset=models.Article.objects.get_published(),
+        make_object_list=True,
     )
  
  
 def article_archive_month(request, year, month):
     return date_based.archive_month(
         request,
-        year = year,
-        month = month,
-        date_field = 'release_date',
-        queryset = models.Article.objects.get_published(),
+        year=year,
+        month=month,
+        date_field='release_date',
+        queryset=models.Article.objects.get_published(),
     )
  
  
 def article_archive_day(request, year, month, day):
     return date_based.archive_day(
         request,
-        year = year,
-        month = month,
-        day = day,
-        date_field = 'release_date',
-        queryset = models.Article.objects.get_published(),
+        year=year,
+        month=month,
+        day=day,
+        date_field='release_date',
+        queryset=models.Article.objects.get_published(),
     )

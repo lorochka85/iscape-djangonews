@@ -5,7 +5,7 @@ setup(
     name='djangonews',
     version='0.1.2',
     description='A News Release Application for Django',
-
+    long_description=open("README").read(),
     author='Imaginary Landscape',
     author_email='dbertrand@imagescape.com',
 

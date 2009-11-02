@@ -1,0 +1,49 @@
+===========
+Django News
+===========
+
+This is a basic news application that can be plugged into any existing
+Django installation and use it's existing templates and admin interface.
+
+Development was done in Django 1.1.1
+
+The project is hosted on github:
+http://github.com/imagescape/iscape-djangonews
+
+Requirements:
+-------------
+django-staticmedia, sorl-thumbnail, feedparser. 
+You can install them manually, or simply follow Installation below.
+
+Get the code:
+------------
+git clone git://github.com/imagescape/iscape-djangonews.git
+
+Installation:
+-------------
+    python setup.py install
+
+
+Put the following into your INSTALLED_APPS setting of your Django project:
+    'staticmeda',
+    'sorl.thumbnail',
+    'djangonews',
+
+
+Adjust your projects urls:
+
+       (r'^news/', include('djangonews.urls')),
+You can use any URI, 'news' is just a suggestion.
+
+
+Run python manage.py syncdb to create app models
+
+
+You'll need TinyMCE in the folder specifyed under MEDIA_ROOT. The path should
+end up looking like this:
+MEDIA_ROOT/tiny_mce/tiny_mce.js
+
+
+You should be all set now. Restart your server, fill out artcicles with 
+some content (or not :). You can browse your news under yoursite.com/news
+

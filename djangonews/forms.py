@@ -31,6 +31,10 @@ from django.db.models import get_model
 from djangonews import widgets
 
 class ArticleAdminModelForm(forms.ModelForm):
+    """
+    Form for ArticleAdmin with TinyMCE for body and 
+    smaller than standard django Text widget for teaser
+    """
     body = forms.CharField(widget=widgets.TinyMCEWidget())
     teaser = forms.CharField(required=False, widget=widgets.SmallTextField())
 

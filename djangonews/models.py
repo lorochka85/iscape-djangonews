@@ -36,6 +36,7 @@ import PIL
 from django.conf import settings
 
 class Article(models.Model):
+    """A single news article"""
     title = models.CharField(max_length=400)
     location = models.CharField(max_length=200, blank=True)
     slug = models.SlugField('ID',
@@ -60,6 +61,7 @@ class Article(models.Model):
         get_latest_by = 'release_date'
 
     def random_thumbnail(self):
+        """Returns randon marked as thumbnail image attached to the article"""
         if self.images.filter(thumbnail=True).count() > 0:
             return choice(self.images.filter(thumbnail=True))
 
@@ -92,6 +94,7 @@ class Article(models.Model):
 
 
 class Category(models.Model):
+    """Category model for articles"""
     title = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(
         help_text='Automatically generated from the title.'
@@ -109,6 +112,7 @@ class Category(models.Model):
 
 
 class Image(models.Model):
+    """Image for an article"""
     image = fields.ImageField(blank=False, upload_to='djangonews/images',
         help_text="Images larger than 800x600 will be resized")
     article = models.ForeignKey(Article, related_name='images')
@@ -125,6 +129,12 @@ class Image(models.Model):
         ordering = ('sort',)
 
     def save(self):
+        """
+        Save image as regular model if it's parameters satisfy 
+        DJANGONEWS_IMAGE_WIDTH, DJANGONEWS_IMAGE_HEIGHT,
+        DJANGONEWS_IMAGE_QUALITY settings. Otherwise using 
+        PIL to modify attached image file
+        """
         super(Image, self).save()
         if self.image:
             filename = self.image.path
@@ -144,9 +154,3 @@ class Image(models.Model):
             size=(width, height)
             image.thumbnail(size, PIL.Image.ANTIALIAS)
             image.save(filename, quality=imquality)
-
-class Location(models.Model):
-    title = models.CharField(max_length=100, unique=True)
-
-    def __unicode__(self):
-        return self.title
